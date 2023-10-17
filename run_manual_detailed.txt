@@ -1,0 +1,29 @@
+Text search Blip_ViTL:
+    + tmux new -s blip_vitl     (nếu chưa có session)
+    + tmux a -t blip_vitl
+    + conda activate blip
+    + CUDA_VISIBLE_DEVICES=2 python /workspace/competitions/AIC_2023/SIU_Minerva/source/api/text_search_blip_vitl_api.py
+
+Text search Clip_L14:
+    + tmux new -s clip_l14  (nếu chưa có session)
+    + tmux a -t clip_l14
+    + conda activate blip
+    + CUDA_VISIBLE_DEVICES=3 python /workspace/competitions/AIC_2023/SIU_Minerva/source/api/text_search_clip_l14_api.py
+
+Image search API:
+    + tmux new -s image_search  (nếu chưa có session)
+    + tmux a -t image_search
+    + conda activate blip
+    + CUDA_VISIBLE_DEVICES=3 python /workspace/competitions/AIC_2023/SIU_Minerva/source/api/image_search_api.py
+
+Translate API:
+    + tmux new -s translate     (nếu chưa có session)
+    + tmux a -t translate
+    + conda activate blip
+    + CUDA_VISIBLE_DEVICES=2 python /workspace/competitions/AIC_2023/SIU_Minerva/source/api/translate.py
+
+Web API:
+    + tmux new -s web   (nếu chưa có session)
+    + tmux a -t web 
+    + python /workspace/competitions/AIC_2023/SIU_Minerva/web_demo/web.py
+

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIU Minerva - AIC 2023</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #35424a;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .container {
+            margin-left: 50px;
+            margin-right: 50px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        h1 {
+            margin-top: 0;
+        }
+        .search-form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        input[type="submit"],
+        input[type="reset"] {
+            background-color: #35424a;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .query-output {
+            margin-top: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        .query-label {
+            margin-right: 3px;
+        }
+        .results-container {
+            margin-top: 2px;
+            flex-grow: 1; /* Tận dụng phần còn lại của màn hình */
+            text-align: center;
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 10px;
+            width: 100%; /* Làm cho hình vuông */
+            padding-bottom: 100%; /* Tạo chiều cao bằng chiều rộng */
+            overflow: hidden; /* Ẩn phần thừa */
+            position: relative;
+            transition: transform 0.3s, z-index 0.3s; /* Thêm hiệu ứng chuyển đổi */
+            border-radius: 3%;
+            display: flex;
+            flex-direction: column;
+        }
+        .results-container:hover {
+            transform: scale(2.1); /* Phóng to 3 lần khi di chuột qua */
+            z-index: 1;
+        }
+        .outer-column {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .image-item img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Duy trì tỷ lệ khung hình và ẩn phần thừa */
+        }
+        .image-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-around; 
+            padding: 0px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            font-size: 10px;
+            margin: 0px;
+            transition: opacity 0.3s;
+        }
+        .image-item:hover .image-info {
+            opacity: 1;
+        }
+        footer {
+            background-color: #949393;
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .about-section, .developer-section, .logo-section {
+            margin-bottom: 10px;
+            max-width: 600px;
+            margin-top: 0px;
+        }
+        .about-section h4, .developer-section h4, .logo-section p {
+            margin-top: 0;
+        }
+        .about-section p, .developer-section p, .logo-section p {
+            margin-bottom: 0px;
+        
+        }
+        .logo {
+            width: 110px;
+            height: 70px;
+            filter: grayscale(100%);
+            margin-top: 0px; /* Thay đổi giá trị margin-top thành 10px */
+            margin-bottom: 0px; /* Thêm thuộc tính margin-bottom */}
+        .url-input {
+            display: flex;
+            align-items: center; /* Canh giữa nội dung trong container */
+            gap: 30px; /* Khoảng cách giữa các phần tử */
+        }
+
+        .input-column {
+            flex: 1; /* Chia cân đối không gian giữa các trường nhập liệu */
+        }
+
+        .function-select {
+            flex-basis: 1%; /* Chiếm 30% chiều rộng để chứa phần chọn module */
+            height: auto;
+        }
+        .fancy {
+			@supports (background-clip: text) or (-webkit-background-clip: text) {
+			  background-image: url("data:image/svg+xml,%3Csvg width='2250' height='900' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg%3E%3Cpath fill='%2300A080' d='M0 0h2255v899H0z'/%3E%3Ccircle cx='366' cy='207' r='366' fill='%2300FDCF'/%3E%3Ccircle cx='1777.5' cy='318.5' r='477.5' fill='%2300FDCF'/%3E%3Ccircle cx='1215' cy='737' r='366' fill='%23008060'/%3E%3C/g%3E%3C/svg%3E%0A");
+			  background-size: 110% auto;
+			  background-position: left;
+			  color: transparent;
+			  -webkit-background-clip: text;
+			  background-clip: text;
+			}
+		}
+        .thumbnail {
+			width: 280px;
+			height: auto;
+			top: -50px;
+			left: -35px;
+			display: block;
+			z-index: 999;
+			cursor: pointer;
+			-webkit-transition-property: all;
+			-webkit-transition-duration: 0.3s;
+			-webkit-transition-timing-function: ease;
+			margin: center;
+			object-fit:scale-down;
+			scrolling:no;
+		}
+
+		/*change the number below to scale to the appropriate size*/
+		.thumbnail:hover {
+			transform: scale(1.5);
+		}
+
+
+    </style>
+</head >
+
+<body>
+    <header>
+        <h1>SIU Minerva</h1>
+        <p>AI Challenge 2023</p>
+    </header>
+    <div class="container">
+        <h2>Search Categories</h2>
+        <form method="POST" action="/" class="search-form">
+            <label for="textImage">Text Image Search:</label>
+            <input onkeyup='saveValue(this);' name="query" id="query" type="text" placeholder="Enter keywords">
+
+            <label for="urlImage">URL Image Search:</label>
+            <input onkeyup='saveValue(this);'  name="fname" id="fname" type="text" placeholder="Enter image URL">
+            <div class="url-input">
+                <div class="input-column">
+                    <input type="text" id="obj" name="obj" placeholder="Nhập object couting">
+                </div>
+                <div class="input-column">
+                    <input type="text" id="sot" name="sot" placeholder="Nhập speech to text">
+                </div>
+                <div class="function-select">
+                    <label for="functionSelect"></label>
+                    <select id="functionSelect" name="functionSelect">
+                        <option value="objectCount">Blip</option>
+                        <option value="speechToText">Clip</option>
+                    </select>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: center;">
+                <button onclick="submit_f()" class="button-68" type="submit" id="submit" style="width:115px; top: 10px; margin-left: 10px; margin-right: 10px; display:inline-block;"> Submit </button>
+                <button onclick="clearResult()"  class="button-68" type="reset" id="reset" style="width:115px; top: 10px; margin-left: 10px; margin-right: 10px; display: inline-block;"> Reset </button>
+             </div>
+                
+        </form> 
+            
+        <p style="color:#0e4d28; line-height: 0.3; margin-left: 7%;"><span class="fancy" style="font-size: 1vw; text-transform: uppercase; text-align: left;">QUERY: {{ query }}</span></p>
+        {% if query_path %}     
+        <img src="{{ query_path }}" width="300px">
+        {% endif %}
+        <p style="color:#19713e; line-height: 0.3; margin-left: 7%; margin-bottom: 3%;"><span class="fancy" style="font-size: 1vw; text-transform: uppercase; text-align: left;">RESULTS: {{count}} </span></p>
+        {% for index, f, id, video in files %}
+        <div style="margin-left:90px;">
+            <div class="thumbnail" style="float: left; margin-right: 20px; margin-bottom: 20px;" height="200px">
+                <img class="" src="{{ url_for('download_file', filename=f) }}" height="200px">
+                <!--<a href="{{ url_for('video', filename=video, keyframe=f) }}" target="_blank" {{id}}</a>-->
+                <!--<video width="100%"  controls autoplays> 
+                <source src="{{ url_for('download_file', filename=video)}}#t={{start}}" type="video/mp4" loop height="200px" class="vid">
+                </video>-->
+                     
+                <a href="{{ url_for('video', filename=video, keyframe=f)}}" target="{{index}}"> {{id}} </a>
+            </div>
+        </div>
+             
+        {% endfor %}
+        
+    </div>
+    <footer>
+        <div class="about-section">
+            <h4>Chào mừng bạn đến với SIU Minerva</h4>
+            <p>Với SIU Minerva, chúng tôi kết hợp sức mạnh của trí tuệ nhân tạo để giúp bạn tìm kiếm, phân tích và hiểu rõ hơn về thế giới xung quanh qua hình ảnh, âm thanh và văn bản.</p>
+        </div>
+
+        <div class="developer-section">
+            <h4>Nhà phát triển</h4>
+            <p>Trang web được phát triển bởi: SIU Minerva</p>
+            <p>Số điện thoại liên hệ: 0123 456 789</p>
+        </div>
+
+        <div class="logo-section">
+            <img src="nhi02.jpg" alt="SIU Minerva Logo" class="logo">
+            <p>&copy; 2023 SIU Minerva. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+            // Get the input field
+    
+            var input = document.getElementById("query");
+    
+            document.getElementById("query").value = getSavedValue("query");    // set the value to this input
+            document.getElementById("fname").value = getSavedValue("fname");   // set the value to this input
+            document.getElementById("objs").value = getSavedValue("objs");   // set the value to this input
+            /* Here you can add more inputs to set value. if it's saved */
+    
+            //Save the value function - save it to localStorage as (ID, VALUE)
+            function saveValue(e){
+                var id = e.id;  // get the sender's id to save it . 
+                var val = e.value; // get the value. 
+                localStorage.setItem(id, val);// Every time user writing something, the localStorage's value will override . 
+            }
+    
+            //get the saved value function - return the value of "v" from localStorage. 
+            function getSavedValue  (v){
+                if (!localStorage.getItem(v)) {
+                    return "";// You can change this to your default value. 
+                }
+                return  torage.getItem(v);
+            }
+    
+    
+            function clearResult(){
+                document.getElementById("query").value  ='';
+                document.getElementById("fname").value = '';
+                document.getElementById("objs").value = '';
+            }
+    
+            input.addEventListener("keypress", function (event) {
+                // If the user presses the "Enter" key on the keyboard
+                if (event.key == "Enter") {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Trigger the button element with a click
+                    document.getElementById("submit").click();
+                }
+            });
+    </script>
+</body>
+</html>

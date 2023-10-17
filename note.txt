@@ -1,0 +1,14 @@
++ Docker Pylucene:
+    ailab_aiclub_pylucene
++ Ports:
+    web : 8402
+    web2: 8401
+
+    image search api : 8403 
+    text search Blip-ViTL: 8404
+    text search Clip-L14: 8405 
+    text search Clip-B32: 8406 
+
+    translation api: 8410 
+    translate2 api: 8409
+
