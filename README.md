@@ -1,4 +1,4 @@
-# SIU_Minerva: Multimedia information retrieval system in AIC2023
+# SIU_Minerva: Multimedia information retrieval system in HCM-AIC2023
 
 The system was used in AIC 2023 for event retrieval purpose. In this system, we focused on using Text-Image and Image-Image retrieval which based on [CLIP-ViT-L14](https://huggingface.co/docs/transformers/model_doc/clip) and [BLIP2](https://github.com/salesforce/LAVIS/tree/main/projects/blip2).
 
